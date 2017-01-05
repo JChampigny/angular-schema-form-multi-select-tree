@@ -1,0 +1,25 @@
+{
+  "name": "angular-schema-form-multi-select-tree",
+  "description": "This plugin is allowing the use of a multi select tree view to the angular schema form",
+  "main": "dist\\angular-schema-form-multi-select-tree.min.js",
+  "authors": [
+    "Jerome Champigny"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "schema",
+    "form",
+    "widget",
+    "tree",
+    "multiselect"
+  ],
+  "homepage": "https://github.com/JChampigny/angular-schema-form-multi-select-tree",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

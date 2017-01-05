@@ -1,0 +1,115 @@
+<div class="form-group {{form.htmlClass}}" ng-controller="multiSelectTreeController">
+    <div class="row" ng-class="{'has-error': hasError(), 'has-success': hasSuccess()}">
+        <label class="control-label col-sm-2 {{form.labelHtmlClass}}" ng-show="showTitle()">
+            {{form.title}}
+        </label>
+        <div class="tree-control col-sm-10">
+            <div class="col-sm-7 {{form.fieldHtmlClass}}">
+                <button gm-multi-select-tree type="button" ng-click="onControlClicked()"
+                        class="btn btn-select form-control" ng-disabled="form.readonly"
+                        data-placeholder="form.placeholder" ng-model="$$value$$" sf-changed="form"
+                        schema-validate="form" ng-model-options="form.ngModelOptions"
+                        data-multi-select="form.options.multiple" ng-init="populateTitleMap(form)"
+                        name="{{form.key.slice(-1)[0]}}">
+                    <i class="fa fa-spinner fa-spin fa-fw" ng-if="loading"></i> {{showDropdownLabel()}}
+                    <span class="caret"></span>
+                </button>
+            </div>
+            <div class="tree-view" ng-if="showTree">
+                <div class="border-bottom padding-top">
+                    <div class="line">
+                        <div class="tree-form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <a class="btn btn-original btn-default active" ng-click="showAll($event)">Show
+                                            All</a>
+                                        <a class="btn btn-original btn-default"
+                                           ng-click="showSelected($event)">Selected</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right" ng-if="totalNumberItems">
+                                    <span>{{totalNumberItems}} Item{{{true:"s", false:""}[totalNumberItems > 1]}} | {{{true: totalNumberItems, false: selectedItems.length}[allSelected]}} Selected</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tree-form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <input placeholder="Search..." type="text" ng-model="pagination.query"
+                                               ng-change="queryChanged()" class="form-control form-control-original"
+                                               ng-model-options="{debounce: 750}">
+                                        <span class="input-group-btn" ng-click="clearFilter()">
+                                                       <button class="btn btn-original btn-default close" type="button"
+                                                               aria-label="Close"><span
+                                                               aria-hidden="true">&times;</span></button>
+                                                   </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tree-form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="btn-group" ng-if="form.options.multiple">
+                                        <a class="btn btn-original btn-default" ng-click="selectAll()">Select All</a>
+                                        <a class="btn btn-original btn-default" ng-click="selectNone()">None</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tree-container">
+                    <div class="tree-parent-node"
+                         infinite-scroll="nextPage()"
+                         infinite-scroll-disabled="busy"
+                         infinite-scroll-container="'.tree-container'">
+                        <gm-tree-item class="top-level" ng-repeat="item in form.titleMap" item="item"
+                                      ng-show="!item.isFiltered"
+                                      can-select-item="canSelectItem" multi-select="form.options.multiple"
+                                      item-clicked="itemClicked(item)"
+                                      on-active-item="onActiveItem(item)" select-only-leafs="selectOnlyLeafs">
+                        </gm-tree-item>
+                        <div style="clear: both;"></div>
+                        <div class="tree-child-node" ng-if="form.titleMap.length === 0 && !loading">No data available
+                        </div>
+                        <div class="tree-child-node alert alert-danger" ng-if="error">
+                            <i class="glyphicon glyphicon-exclamation-sign"></i> Something went wrong
+                        </div>
+                        <div class="tree-child-node" ng-if="!form.titleMap && loading">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> Loading data...
+                        </div>
+                        <div class="tree-child-node"
+                             ng-if="totalNumberItems > form.titleMap.length && busy && !showSelectedOnly"
+                             ng-click="nextPage()">
+                            <i class="fa fa-spinner fa-spin fa-fw"></i> Loading more data... ({{totalNumberItems}}
+                            total)
+                        </div>
+                    </div>
+                </div>
+                <div class="tree-form-group border-top padding-top">
+                    <div class="row text-right">
+                        <div class="col-md-12">
+                            <a class="btn btn-original btn-default" ng-click="cancel()">Cancel</a>
+                            <a class="btn btn-original btn-default" ng-click="done()">Done</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tooltip-mark col-sm-1">
+                           <span ng-if="form.tooltip.content != null && form.tooltip.content != ''"
+                                 class="glyphicon glyphicon-question-sign clickable"
+                                 ng-attr-tooltip-trigger="outsideClick"
+                                 ng-attr-tooltip-placement="{{form.tooltip.position}}"
+                                 ng-attr-uib-tooltip="{{form.tooltip.content}}"></span>
+            </div>
+            <div class="help-block col-sm-3" sf-message="form.description"></div>
+            <div class="col-sm-1">
+                           <span ng-if="form.feedback !== false" class="form-control-feedback"
+                                 ng-class="evalInScope(form.feedback) || {'glyphicon': true, 'glyphicon-ok': hasSuccess(), 'glyphicon-remove': hasError() }"></span>
+            </div>
+        </div>
+    </div>
+</div>
