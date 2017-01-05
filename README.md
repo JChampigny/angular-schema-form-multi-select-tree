@@ -13,7 +13,7 @@ You'll need to load the bootstrap CSS file to use multi select tree
 * [Bootstrap](http://getbootstrap.com) CSS
 
 You can also install the module with bower
-`$ bower install angular-schema-form-angular-schema-form`
+`$ bower install angular-schema-form-multi-select-tree`
 
 ## Usage
 The multi select tree add-on adds a new form type, treeselect.
