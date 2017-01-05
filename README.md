@@ -26,8 +26,16 @@ Schema | Default Form type
 --- | ---
 "type": "array" | Multi Select Tree
 
+### Select Only Leafs
+The selectOnlyLeafs attribute disable the user to be able to select an entire set of data by selecting the parent category.
+
+### Max Items (Asynchronous Callback)
+The maxItems attribute specifies the number of records we want to fetch during the callback.
+
 ### Options
+The options attribute contains all optional functionality.
 #### Multiselect
+You can specify if the widget allows multi-selection through the multiple option. By default the value is false.
 ```
 options: {
     ...,
@@ -36,6 +44,8 @@ options: {
 ```
 
 #### Select All
+If you would like to be able to select all you can use the selectAll boolean. This will show a select all checkbox on top on the data.
+If you wish to specify what kind of data we are selecting you can specify the selectAllName string. This text will be added to the label of the checkbox.
 ```
 options: {
     ...,
@@ -72,6 +82,7 @@ $scope.form = [
 Multi Select Tree uses a system of events to introduce inter-field dependencies.
 
 ###### Register events
+You can register an event to be thrown by the field after the user hit the "Done" button or closes the popup by clicking outside of it.
 ```
 options: {
     ...,
@@ -82,15 +93,27 @@ options: {
 ```
 
 ###### Listen events
+You can listen to specific events and assign an argument name to the data contained in the event for it to cascade in your callback.
 ```
 options: {
     ...,
     listenEvents: [
         {
-            name: "3268",
-            argName: "DataAccess"
+            name: "Advertisers",
+            argName: "AdvertisersIds"
         }
     ]
+}
+```
+
+###### Asynchronous Callback Definition
+```
+var callback = function (listenEventsArgs, {
+    pageIndex: 0,
+    maxItems: 100,
+    query: "adv"
+}) {
+    // Definition
 }
 ```
 
